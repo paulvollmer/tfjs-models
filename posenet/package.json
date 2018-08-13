@@ -29,6 +29,7 @@
     "rollup-plugin-uglify": "~3.0.0",
     "ts-node": "~5.0.0",
     "tslint": "~5.8.0",
+    "typedoc": "^0.11.1",
     "typescript": "2.9.2"
   },
   "scripts": {
@@ -36,7 +37,8 @@
     "test": "ts-node run_tests.ts",
     "publish-npm": "yarn build && npm publish",
     "dev": "d demos && yarn watch",
-    "lint": "tslint -p . -t verbose"
+    "lint": "tslint -p . -t verbose",
+    "docs": "typedoc --out docs src"
   },
   "license": "Apache-2.0"
 }
