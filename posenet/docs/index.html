@@ -1,0 +1,717 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@tensorflow-models/posenet</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@tensorflow-models/posenet</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @tensorflow-models/posenet</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="pose-detection-in-the-browser-posenet-model">Pose Detection in the Browser: PoseNet Model</h1>
+				<p>This package contains a standalone model called PoseNet, as well as some demos, for running real-time pose estimation in the browser using TensorFlow.js.</p>
+				<p><a href="https://storage.googleapis.com/tfjs-models/demos/posenet/camera.html">Try the demo here!</a></p>
+				<p><img src="https://raw.githubusercontent.com/irealva/tfjs-models/master/posenet/demos/camera.gif" alt="cameraDemo" style="width: 600px;"/></p>
+				<p>PoseNet can be used to estimate either a single pose or multiple poses, meaning there is a version of the algorithm that can detect only one person in an image/video and one version that can detect multiple persons in an image/video.</p>
+				<p><a href="https://medium.com/tensorflow/real-time-human-pose-estimation-in-the-browser-with-tensorflow-js-7dd0bc881cd5">Refer to this blog post</a> for a high-level description of PoseNet running on Tensorflow.js.</p>
+				<p>To keep track of issues we use the <a href="https://github.com/tensorflow/tfjs">tensorflow/tfjs</a> Github repo.</p>
+				<h2 id="installation">Installation</h2>
+				<p>You can use this as standalone es5 bundle like this:</p>
+				<pre><code class="lang-html">  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@tensorflow/tfjs"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@tensorflow-models/posenet"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+				<p>Or you can install it via npm for use in a TypeScript / ES6 project.</p>
+				<pre><code class="lang-sh">npm install @tensorflow-models/posenet
+</code></pre>
+				<h2 id="usage">Usage</h2>
+				<p>Either a single pose or multiple poses can be estimated from an image.
+				Each methodology has its own algorithm and set of parameters.</p>
+				<h3 id="keypoints">Keypoints</h3>
+				<p>All keypoints are indexed by part id.  The parts and their ids are:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Part</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>0</td>
+							<td>nose</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>leftEye</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>rightEye</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>leftEar</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>rightEar</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>leftShoulder</td>
+						</tr>
+						<tr>
+							<td>6</td>
+							<td>rightShoulder</td>
+						</tr>
+						<tr>
+							<td>7</td>
+							<td>leftElbow</td>
+						</tr>
+						<tr>
+							<td>8</td>
+							<td>rightElbow</td>
+						</tr>
+						<tr>
+							<td>9</td>
+							<td>leftWrist</td>
+						</tr>
+						<tr>
+							<td>10</td>
+							<td>rightWrist</td>
+						</tr>
+						<tr>
+							<td>11</td>
+							<td>leftHip</td>
+						</tr>
+						<tr>
+							<td>12</td>
+							<td>rightHip</td>
+						</tr>
+						<tr>
+							<td>13</td>
+							<td>leftKnee</td>
+						</tr>
+						<tr>
+							<td>14</td>
+							<td>rightKnee</td>
+						</tr>
+						<tr>
+							<td>15</td>
+							<td>leftAnkle</td>
+						</tr>
+						<tr>
+							<td>16</td>
+							<td>rightAnkle</td>
+						</tr>
+					</tbody>
+				</table>
+				<h3 id="loading-a-pre-trained-posenet-model">Loading a pre-trained PoseNet Model</h3>
+				<p>In the first step of pose estimation, an image is fed through a pre-trained model.  PoseNet <strong>comes with a few different versions of the model,</strong> each corresponding to a MobileNet v1 architecture with a specific multiplier. To get started, a model must be loaded from a checkpoint, with the MobileNet architecture specified by the multiplier:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> net = <span class="hljs-keyword">await</span> posenet.load(multiplier);
+</code></pre>
+				<h4 id="inputs">Inputs</h4>
+				<ul>
+					<li><strong>multiplier</strong> - An optional number with values: <code>1.01</code>, <code>1.0</code>, <code>0.75</code>, or <code>0.50</code>. Defaults to <code>1.01</code>.   It is the float multiplier for the depth (number of channels) for all convolution operations. The value corresponds to a MobileNet architecture and checkpoint.  The larger the value, the larger the size of the layers, and more accurate the model at the cost of speed.  Set this to a smaller value to increase speed at the cost of accuracy.</li>
+				</ul>
+				<p><strong>By default,</strong> PoseNet loads a model with a <strong><code>1.01</code></strong> multiplier.  This is recommended for computers with <strong>powerful GPUs.</strong>  A model with a <strong><code>0.75</code></strong> muliplier is recommended for computers with <strong>mid-range/lower-end GPUS.</strong> A model with a <strong><code>0.50</code></strong> architecture is recommended for <strong>mobile.</strong></p>
+				<h3 id="single-person-pose-estimation">Single-Person Pose Estimation</h3>
+				<p>Single pose estimation is the simpler and faster of the two algorithms. Its ideal use case is for when there is only one person in the image. The disadvantage is that if there are multiple persons in an image, keypoints from both persons will likely be estimated as being part of the same single pose—meaning, for example, that person #1’s left arm and person #2’s right knee might be conflated by the algorithm as belonging to the same pose.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> pose = <span class="hljs-keyword">await</span> poseNet.estimateSinglePose(image, imageScaleFactor, flipHorizontal, outputStride);
+</code></pre>
+				<h4 id="inputs">Inputs</h4>
+				<ul>
+					<li><strong>image</strong> - ImageData|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement
+					The input image to feed through the network.</li>
+					<li><strong>imageScaleFactor</strong> - A number between 0.2 and 1.0. Defaults to 0.50.   What to scale the image by before feeding it through the network.  Set this number lower to scale down the image and increase the speed when feeding through the network at the cost of accuracy.</li>
+					<li><strong>flipHorizontal</strong> - Defaults to false.  If the poses should be flipped/mirrored  horizontally.  This should be set to true for videos where the video is by default flipped horizontally (i.e. a webcam), and you want the poses to be returned in the proper orientation.</li>
+					<li><strong>outputStride</strong> - the desired stride for the outputs when feeding the image through the model.  Must be 32, 16, 8.  Defaults to 16.  The higher the number, the faster the performance but slower the accuracy, and visa versa.</li>
+				</ul>
+				<h4 id="returns">Returns</h4>
+				<p>It returns a <code>pose</code> with a confidence score and an array of keypoints indexed by part id, each with a score and position.</p>
+				<h4 id="example-usage">Example Usage</h4>
+				<h5 id="via-script-tag">via Script Tag</h5>
+				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Load TensorFlow.js --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Load Posenet --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@0.1.2"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">id</span>=<span class="hljs-string">'cat'</span> <span class="hljs-attr">src</span>=<span class="hljs-string">'/images/cat.jpg '</span>/&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- Place your code in the script tag below. You can also use an external .js file --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">var</span> imageScaleFactor = <span class="hljs-number">0.5</span>;
+    <span class="hljs-keyword">var</span> outputStride = <span class="hljs-number">16</span>;
+    <span class="hljs-keyword">var</span> flipHorizontal = <span class="hljs-literal">false</span>;
+
+    <span class="hljs-keyword">var</span> imageElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'cat'</span>);
+
+    posenet.load().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">net</span>)</span>{
+      <span class="hljs-keyword">return</span> net.estimateSinglePose(imageElement, imageScaleFactor, flipHorizontal, outputStride)
+    }).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">pose</span>)</span>{
+      <span class="hljs-built_in">console</span>.log(pose);
+    })
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+				<h6 id="via-npm">via NPM</h6>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> posenet <span class="hljs-keyword">from</span> <span class="hljs-string">'@tensorflow-models/posenet'</span>;
+<span class="hljs-keyword">const</span> imageScaleFactor = <span class="hljs-number">0.5</span>;
+<span class="hljs-keyword">const</span> outputStride = <span class="hljs-number">16</span>;
+<span class="hljs-keyword">const</span> flipHorizontal = <span class="hljs-literal">false</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">estimatePoseOnImage</span>(<span class="hljs-params">imageElement</span>) </span>{
+  <span class="hljs-comment">// load the posenet model from a checkpoint</span>
+  <span class="hljs-keyword">const</span> net = <span class="hljs-keyword">await</span> posenet.load();
+
+  <span class="hljs-keyword">const</span> pose = <span class="hljs-keyword">await</span> net.estimateSinglePose(imageElement, imageScaleFactor, flipHorizontal, outputStride);
+
+  <span class="hljs-keyword">return</span> pose;
+}
+
+<span class="hljs-keyword">const</span> imageElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'cat'</span>);
+
+<span class="hljs-keyword">const</span> pose = estimatePoseOnImage(imageElement);
+
+<span class="hljs-built_in">console</span>.log(pose);
+
+</code></pre>
+				<p>which would produce the output:</p>
+				<pre><code class="lang-json">{
+  <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.32371445304906</span>,
+  <span class="hljs-attr">"keypoints"</span>: [
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">76.291801452637</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">253.36747741699</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"nose"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.99539834260941</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">71.10383605957</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">253.54365539551</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"leftEye"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.98781454563141</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">71.839515686035</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">246.00454711914</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"rightEye"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.99528175592422</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">72.848854064941</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">263.08151245117</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"leftEar"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.84029853343964</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">79.956565856934</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">234.26812744141</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"rightEar"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.92544466257095</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">98.34538269043</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">399.64068603516</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"leftShoulder"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.99559044837952</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">95.082359313965</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">458.21868896484</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"rightShoulder"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.99583911895752</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">94.626205444336</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">163.94561767578</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"leftElbow"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.9518963098526</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">150.2349395752</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">245.06030273438</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"rightElbow"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.98052614927292</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">113.9603729248</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">393.19735717773</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"leftWrist"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.94009721279144</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">186.47859191895</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">257.98034667969</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"rightWrist"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.98029226064682</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">208.5266418457</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">284.46710205078</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"leftHip"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.97870296239853</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">209.9910736084</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">243.31219482422</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"rightHip"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.97424703836441</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">281.61965942383</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">310.93188476562</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"leftKnee"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.98368924856186</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">282.80120849609</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">203.81164550781</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"rightKnee"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.96947449445724</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">360.62716674805</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">292.21047973633</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"leftAnkle"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.8883239030838</span>
+    },
+    {
+      <span class="hljs-attr">"position"</span>: {
+        <span class="hljs-attr">"y"</span>: <span class="hljs-number">347.41177368164</span>,
+        <span class="hljs-attr">"x"</span>: <span class="hljs-number">203.88229370117</span>
+      },
+      <span class="hljs-attr">"part"</span>: <span class="hljs-string">"rightAnkle"</span>,
+      <span class="hljs-attr">"score"</span>: <span class="hljs-number">0.8255187869072</span>
+    }
+  ]
+}
+</code></pre>
+				<h3 id="multi-person-pose-estimation">Multi-Person Pose Estimation</h3>
+				<p>Multiple Pose estimation can decode multiple poses in an image. It is more complex and slightly slower than the single pose-algorithm, but has the advantage that if multiple people appear in an image, their detected keypoints are less likely to be associated with the wrong pose. Even if the use case is to detect a single person’s pose, this algorithm may be more desirable in that the accidental effect of two poses being joined together won’t occur when multiple people appear in the image. It uses the <code>Fast greedy decoding</code> algorithm from the research paper <a href="https://arxiv.org/pdf/1803.08225.pdf">PersonLab: Person Pose Estimation and Instance Segmentation with a Bottom-Up, Part-Based, Geometric Embedding Model</a>.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> poses = <span class="hljs-keyword">await</span> net.estimateMultiplePoses(image, imageScaleFactor, flipHorizontal, outputStride, maxPoseDetections, scoreThreshold, nmsRadius);
+</code></pre>
+				<h4 id="inputs">Inputs</h4>
+				<ul>
+					<li><strong>image</strong> - ImageData|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement
+					The input image to feed through the network.</li>
+					<li><strong>imageScaleFactor</strong> - A number between 0.2 and 1.0. Defaults to 0.50.   What to scale the image by before feeding it through the network.  Set this number lower to scale down the image and increase the speed when feeding through the network at the cost of accuracy.</li>
+					<li><strong>flipHorizontal</strong> - Defaults to false.  If the poses should be flipped/mirrored  horizontally.  This should be set to true for videos where the video is by default flipped horizontally (i.e. a webcam), and you want the poses to be returned in the proper orientation.</li>
+					<li><strong>outputStride</strong> - the desired stride for the outputs when feeding the image through the model.  Must be 32, 16, 8.  Defaults to 16.  The higher the number, the faster the performance but slower the accuracy, and visa versa.</li>
+					<li><strong>maxPoseDetections</strong> (optional) - the maximum number of poses to detect. Defaults to 5.</li>
+					<li><strong>scoreThreshold</strong> (optional) - Only return instance detections that have root part score greater or equal to this value. Defaults to 0.5.</li>
+					<li><strong>nmsRadius</strong> (optional) - Non-maximum suppression part distance. It needs to be strictly positive. Two parts suppress each other if they are less than <code>nmsRadius</code> pixels away. Defaults to 20.</li>
+				</ul>
+				<h4 id="returns">Returns</h4>
+				<p>It returns a <code>promise</code> that resolves with an array of <code>poses</code>, each with a confidence score and an array of <code>keypoints</code> indexed by part id, each with a score and position.</p>
+				<h5 id="via-script-tag">via Script Tag</h5>
+				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Load TensorFlow.js --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@tensorflow/tfjs"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Load Posenet --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@tensorflow-models/posenet"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">id</span>=<span class="hljs-string">'cat'</span> <span class="hljs-attr">src</span>=<span class="hljs-string">'/images/cat.jpg '</span>/&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- Place your code in the script tag below. You can also use an external .js file --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">var</span> imageScaleFactor = <span class="hljs-number">0.5</span>;
+    <span class="hljs-keyword">var</span> flipHorizontal = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">var</span> outputStride = <span class="hljs-number">16</span>;
+    <span class="hljs-keyword">var</span> maxPoseDetections = <span class="hljs-number">2</span>;
+
+    <span class="hljs-keyword">var</span> imageElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'cat'</span>);
+
+    posenet.load().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">net</span>)</span>{
+      <span class="hljs-keyword">return</span> net.estimateMultiplePoses(imageElement, <span class="hljs-number">0.5</span>, flipHorizontal, outputStride, maxPoseDetections)
+    }).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">poses</span>)</span>{
+      <span class="hljs-built_in">console</span>.log(poses);
+    })
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+				<h6 id="via-npm">via NPM</h6>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> posenet <span class="hljs-keyword">from</span> <span class="hljs-string">'@tensorflow-models/posenet'</span>;
+
+<span class="hljs-keyword">const</span> imageScaleFactor = <span class="hljs-number">0.5</span>;
+<span class="hljs-keyword">const</span> outputStride = <span class="hljs-number">16</span>;
+<span class="hljs-keyword">const</span> flipHorizontal = <span class="hljs-literal">false</span>;
+<span class="hljs-keyword">const</span> outputStride = <span class="hljs-number">16</span>;
+<span class="hljs-keyword">const</span> maxPoseDetections = <span class="hljs-number">2</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">estimateMultiplePosesOnImage</span>(<span class="hljs-params">imageElement</span>) </span>{
+  <span class="hljs-keyword">const</span> net = <span class="hljs-keyword">await</span> posenet.load();
+
+  <span class="hljs-comment">// estimate poses</span>
+  <span class="hljs-keyword">const</span> poses = <span class="hljs-keyword">await</span> net.estimateMultiplePoses(imageElement,
+    imageScaleFactor, flipHorizontal, outputStride, maxPoseDetections);
+
+  <span class="hljs-keyword">return</span> poses;
+}
+
+<span class="hljs-keyword">const</span> imageElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'people'</span>);
+
+<span class="hljs-keyword">const</span> poses = estimateMultiplePosesOnImage(imageElement);
+
+<span class="hljs-built_in">console</span>.log(poses);
+</code></pre>
+				<p>This produces the output:</p>
+				<pre><code>[
+  // pose <span class="hljs-number">1</span>
+  {
+    // pose score
+    <span class="hljs-string">"score"</span>: <span class="hljs-number">0.42985695206067</span>,
+    <span class="hljs-string">"keypoints"</span>: [
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">126.09371757507</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">97.861720561981</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"nose"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.99710708856583</span>
+      },
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">132.53466176987</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">86.429876804352</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"leftEye"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.99919074773788</span>
+      },
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">100.85626316071</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">84.421931743622</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"rightEye"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.99851280450821</span>
+      },
+
+      ...
+
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">72.665352582932</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">493.34189963341</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"rightAnkle"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.0028593824245036</span>
+      }
+    ],
+  },
+  // pose <span class="hljs-number">2</span>
+  {
+
+    // pose score
+    <span class="hljs-string">"score"</span>: <span class="hljs-number">0.13461434583673</span>,
+    <span class="hljs-string">"keypoints"</span>: [
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">116.58444058895</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">99.772533416748</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"nose"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.0028593824245036</span>
+      }
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">133.49897611141</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">79.644590377808</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"leftEye"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.99919074773788</span>
+      },
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">100.85626316071</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">84.421931743622</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"rightEye"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.99851280450821</span>
+      },
+
+      ...
+
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">72.665352582932</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">493.34189963341</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"rightAnkle"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.0028593824245036</span>
+      }
+    ],
+  },
+  // pose <span class="hljs-number">2</span>
+  {
+    // pose score
+    <span class="hljs-string">"score"</span>: <span class="hljs-number">0.13461434583673</span>,
+    <span class="hljs-string">"keypoints"</span>: [
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">116.58444058895</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">99.772533416748</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"nose"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.0028593824245036</span>
+      }
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">133.49897611141</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">79.644590377808</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"leftEye"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.99919074773788</span>
+      },
+
+      ...
+
+      {
+        <span class="hljs-string">"position"</span>: {
+          <span class="hljs-string">"x"</span>: <span class="hljs-number">59.334579706192</span>,
+          <span class="hljs-string">"y"</span>: <span class="hljs-number">485.5936152935</span>
+        },
+        <span class="hljs-string">"part"</span>: <span class="hljs-string">"rightAnkle"</span>,
+        <span class="hljs-string">"score"</span>: <span class="hljs-number">0.004110524430871</span>
+      }
+    ]
+  }
+]
+</code></pre><h2 id="developing-the-demos">Developing the Demos</h2>
+				<p>Details for how to run the demos are included in the <code>demos/</code> folder.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_checkpoint_loader_.html">"checkpoint_<wbr>loader"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_checkpoints_.html">"checkpoints"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_keypoints_.html">"keypoints"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mobilenet_.html">"mobilenet"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_multipose_buildpartwithscorequeue_.html">"multi<wbr>Pose/build<wbr>Part<wbr>With<wbr>Score<wbr>Queue"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_multipose_decodemultipleposes_.html">"multi<wbr>Pose/decode<wbr>Multiple<wbr>Poses"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_multipose_decodepose_.html">"multi<wbr>Pose/decode<wbr>Pose"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_multipose_maxheap_.html">"multi<wbr>Pose/max<wbr>Heap"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_multipose_util_.html">"multi<wbr>Pose/util"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_posenet_model_.html">"posenet_<wbr>model"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_posenet_test_.html">"posenet_<wbr>test"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_singlepose_argmax2d_.html">"single<wbr>Pose/argmax2d"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_singlepose_argmax2d_test_.html">"single<wbr>Pose/argmax2d_<wbr>test"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_singlepose_decodesinglepose_.html">"single<wbr>Pose/decode<wbr>Single<wbr>Pose"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_singlepose_util_.html">"single<wbr>Pose/util"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_types_.html">"types"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_util_.html">"util"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_util_test_.html">"util_<wbr>test"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
